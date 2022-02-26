@@ -44,7 +44,6 @@ contract UANFT is ERC1155, Ownable {
         uint256 mintPrice, 
         string memory tokenUri
     ) external onlyOwner {
-        // allow free mints
         require(!tokenData[tokenId].created, "Token already created");
         require(bytes(tokenUri).length > 0, "URI required");
 
