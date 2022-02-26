@@ -1,0 +1,11 @@
+compiler:
+    solc:
+        remappings:
+          - "@openzeppelin=./node_modules/@openzeppelin"
+
+networks:
+  development:
+    cmd_settings:
+      port: 8546          
+
+dotenv: .env

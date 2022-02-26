@@ -1,0 +1,16 @@
+__pycache__
+.env
+.history
+.hypothesis/
+build/
+reports/
+
+
+node_modules/
+venv/
+.venv/
+.vscode/
+.idea/
+.nix-venv/
+
+.env
