@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "react-toastify": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.179"
+  }
+}

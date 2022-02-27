@@ -1,6 +1,6 @@
 import json
 import os
-from brownie import UANFT, accounts, network
+from brownie import UANFT, Wei, accounts, network
 
 
 def main():
@@ -17,6 +17,8 @@ def main():
 
     priority_fee("2 gwei")
 
-    
     uanft = UANFT.deploy({"from": acct})
+    uanft.setRecipient("0xa1b1bbB8070Df2450810b8eB2425D543cfCeF79b", {'from': acct})
+    uanft.createToken(1, Wei('0.01 ether'), 'ipfs://QmYahZ8NstfK6oMCFfyhkoLJjVpQ7qYvbNynYw2a4sK8KP', {'from': acct})
+    # uanft.transferOwnership()
     

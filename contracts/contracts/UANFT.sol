@@ -17,7 +17,6 @@ contract UANFT is ERC1155, Ownable {
     mapping(uint256 => string) private tokenUris;
 
     address public recipient;
-    mapping(address => uint256) balances;
 
     event RecipientChanged (address recipient);
 
@@ -29,7 +28,7 @@ contract UANFT is ERC1155, Ownable {
         require(msg.value * amount >= mintData.mintPrice * amount, "Insuficcient funds");
         require(recipient != address(0), "Recipient not set");
         
-        balances[recipient] += msg.value;
+        Address.sendValue(payable(recipient), msg.value);
 
         _mint(msg.sender, tokenId, amount, "");
     }
@@ -53,14 +52,6 @@ contract UANFT is ERC1155, Ownable {
             created: true
         });
         tokenUris[tokenId] = tokenUri;
-    }
-
-    function release(address account) external {
-        uint256 amount = balances[account];
-        require(amount > 0, "Nothing to pay");
-
-        balances[account] = 0;
-        Address.sendValue(payable(account), amount);
     }
 
     function toggleToken(uint256 tokenId, bool enabled) external onlyOwner {

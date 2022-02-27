@@ -1,6 +1,7 @@
 import React from 'react';
 import { AppBar, Box, Container, Hidden, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
+import * as logo from '../img/logo.svg';
 
 const Header = () => {
   return (
@@ -12,7 +13,7 @@ const Header = () => {
               <Box display="flex" alignItems="center">
                 <Link to="/">
                   <Box display="flex" alignItems="center" mr={4}>
-                    
+                    <img src="/logo.svg" alt="UA NFT" width={24} />
                     <Hidden smDown>
                       <Box ml={2} color="white" fontWeight="fontWeightMedium">
                         UA NFT
