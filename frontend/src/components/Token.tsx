@@ -59,7 +59,7 @@ const Token = () => {
           presumed dead as <a>declared</a> by President Zelensky. As for
           February 26th, 2022, there are unconfirmed reports that some of the
           servicemen have been captured and held in Ukrainian Crimea temporarily
-          occupied by the Russian forces. The Navy Times{" "}
+          occupied by the Russian forces. The Navy Times has{" "}
           <a
             href="https://www.navytimes.com/news/your-navy/2022/02/25/ukrainians-trapped-on-snake-island-to-the-russians-demanding-their-surrender-go-fck-yourself/"
             target="_blank"
