@@ -6,7 +6,6 @@ import Link from '@mui/material/Link';
 import AppProviders from './AppProviders';
 import HomePage from './components/HomePage';
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
@@ -21,11 +20,10 @@ function Copyright() {
 
 export default function App() {
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
         <AppProviders>
           <Router>
             <Routes>
-              {/* <Route key="itemPage" path={`/token/:tokenId`} component={ItemPage} /> */}
               <Route key="home" path="/" element={<HomePage />} />
             </Routes>
           </Router>

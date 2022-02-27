@@ -2,8 +2,8 @@ import { Interface } from "ethers/lib/utils";
 
 
 export const address = {
-    1: "0x",
-    4: "0x38D6698508dBeaEec2f48D24613AaEc521249459",
+    1: "0xd084B091bAf94154D782f78EB9f904A76d8F741a",
+    4: "0x",
 }
 
 export const abi = new Interface(
