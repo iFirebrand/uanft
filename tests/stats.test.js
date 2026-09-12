@@ -1,0 +1,5 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import * as utils from 'ethers'; import {summarize,CONTRACT} from '../lib/stats-core.js';
+const iface=new utils.Interface(['function publicMint(uint256 tokenId,uint256 amount)']);
+const tx=(hash,amount,value,extra={})=>({hash,to:CONTRACT,isError:'0',txreceipt_status:'1',input:iface.encodeFunctionData('publicMint',[1,amount]),value:utils.parseEther(value).toString(),timeStamp:'1646000000',blockNumber:'1',transactionIndex:'1',...extra});
+test('Counts editions and actual ETH, excludes failed calls and secondary transfers, deduplicates history',()=>{const a=tx('0xa',10,'0.01');const b=tx('0xb',2,'0.02');const result=summarize([a,a,b,tx('0xc',1,'0.01',{isError:'1'}),tx('0xd',1,'0.01',{input:'0x1234'}),tx('0xe',1,'1',{input:iface.encodeFunctionData('publicMint',[2,1])})],'2026-09-12T00:00:00.000Z');assert.equal(result.minted,'12');assert.equal(result.raised,'0.03');assert.equal(result.transactions,2);});
+test('Empty verified history returns zero',()=>{assert.equal(summarize([],'2026-01-01T00:00:00Z').raised,'0.0');});

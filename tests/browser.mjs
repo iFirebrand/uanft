@@ -1,0 +1,25 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+import {AbiCoder} from 'ethers';
+const coder=AbiCoder.defaultAbiCoder();
+const payee='0xa1b1bbB8070Df2450810b8eB2425D543cfCeF79b';
+const mintData=coder.encode(['uint256','bool','bool'],[10000000000000000n,true,true]);
+const recipient=coder.encode(['address'],[payee]);
+const browser=await chromium.launch();
+for (const width of [375,390,768,1440]) {
+ const page=await browser.newPage({viewport:{width,height:900}});
+ await page.route('**/api/stats',route=>route.fulfill({status:503,contentType:'application/json',body:'{}'}));
+ await page.route(url=>url.hostname==='ethereum.publicnode.com',async route=>{const request=route.request().postDataJSON();const response=msg=>({jsonrpc:'2.0',id:msg.id,result:msg.method==='eth_chainId'?'0x1':msg.params?.[0]?.data?.startsWith('0x') && msg.method==='eth_call' ? (msg.params[0].data.length>10?mintData:recipient) : '0x1'});await route.fulfill({contentType:'application/json',body:JSON.stringify(Array.isArray(request)?request.map(response):response(request))});});
+ await page.addInitScript(({mintData,recipient})=>{window.ethereum={on(){},removeListener(){},async request({method,params}){if(method==='eth_requestAccounts'||method==='eth_accounts')return ['0x1111111111111111111111111111111111111111'];if(method==='eth_chainId')return '0x1';if(method==='eth_call')return params[0].data.length>10?mintData:recipient; if(method==='eth_blockNumber')return '0x100';if(method==='eth_estimateGas')return '0x186a0';if(method==='eth_sendTransaction'){window.lastMint=params[0];throw Object.assign(Error('User rejected transaction'),{code:4001});}throw Error(method);}};},{mintData,recipient});
+ page.setDefaultTimeout(6000); await page.goto('http://localhost:5173');await page.getByText('0.01 ETH per edition',{exact:false}).waitFor().catch(async e=>{console.log(await page.locator('.mint-card').innerText());throw e;});
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth),`overflow at ${width}`);
+ await page.getByRole('button',{name:'Connect wallet to mint'}).click();await page.getByText('Connected:',{exact:false}).waitFor();
+ await page.locator('#quantity').fill('3'); await page.getByRole('button',{name:'Mint 3 editions'}).click();
+ await page.getByText('Request cancelled. You have not been charged.',{exact:false}).waitFor();
+ const tx=await page.evaluate(()=>window.lastMint);assert.equal(BigInt(tx.value),30000000000000000n);
+ await page.locator('#quantity').fill('0');assert.ok(await page.getByRole('button',{name:/^Mint.*editions/}).isDisabled());
+ await page.locator('#quantity').fill('1');
+ if(width===390||width===1440)await page.screenshot({path:`/tmp/uanft-${width}.png`,fullPage:true});
+ await page.close();console.log(`PASS ${width}px: layout, wallet connection, mint payment, cancellation, invalid quantity`);
+}
+await browser.close();
