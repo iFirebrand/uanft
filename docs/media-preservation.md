@@ -19,12 +19,18 @@ The original website played `/video.mp4`, a relative URL to a file checked into 
 
 The live contract returned metadata URI `ipfs://QmYahZ8NstfK6oMCFfyhkoLJjVpQ7qYvbNynYw2a4sK8KP` in a browser-based mainnet check on September 12, 2026; see `live-contract-check.json`. The live recipient also matched the original foundation address and token #1 was enabled at 0.01 ETH.
 
-The image and animation CIDs above come from the checked-in metadata. We could not retrieve the live metadata bytes from the gateways tested, so equivalence with that file, image availability, animation-CID equivalence, and pin ownership remain unverified. These are content addresses, not evidence of who is pinning them or whether they remain available. Include the verified metadata CID itself in the preservation plan.
+On September 12, 2026, all three original CIDv0 UnixFS hashes were reproduced with `ipfs-only-hash`:
+
+- The live metadata was retrieved and backed up in `preservation/ipfs/metadata.json`; its CID matches the contract URI, and its parsed contents match the original checked-in metadata.
+- The image was retrieved independently from dweb.link and Pinata's public gateway and backed up in `preservation/ipfs/image.png`; its reproduced CID matches the metadata.
+- The untouched original `frontend/public/video.mp4` reproduces the animation CID exactly. It is the original NFT animation, not merely a similar website copy.
+
+See `preservation/manifest.json` for file sizes, CIDs, and SHA-256 checksums. All assets can now be re-pinned from exact local bytes without changing the NFT or smart contract. Retrieval and exact backups are verified; current pin ownership and ongoing retention are not.
 
 ## Verify and preserve the NFT itself
 
 Run `node scripts/inspect-media.mjs`, optionally with `ETHEREUM_RPC_URL` set to a working mainnet provider. It reads `uri(1)` and the current recipient directly from the original contract and fetches the metadata. Alternatively use Etherscan's Read Contract tab for `uri(1)`.
 
-Download the exact metadata, image, and animation bytes from their current locations. Keep offline copies and import **each original CID** into an IPFS pinning account you control, ideally with a second independent pin. Verify each CID remains accessible. Do not recompress the original IPFS content: changed bytes produce a different CID. Our preview is a website derivative only.
+Exact metadata, image, and animation bytes are already preserved in this repository. Keep an additional offline copy and import **each original CID** into an IPFS pinning account you control, ideally with a second independent pin. Verify each CID remains accessible. Do not recompress the original IPFS content: changed bytes produce a different CID. Our preview is a website derivative only.
 
 Pinning requires a pinning service/account or an IPFS node; none has been connected in this session. Committing the existing video secures website playback, but does not by itself keep OpenSea's IPFS assets online. There is no need to change or redeploy the smart contract to pin the original content.

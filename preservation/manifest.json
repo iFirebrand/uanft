@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-09-12",
+  "verification": "All original CIDv0 UnixFS content hashes reproduced with ipfs-only-hash; metadata matches checked-in metadata.",
+  "pinStatus": "Pin ownership and ongoing retention not verified.",
+  "assets": [
+    {
+      "name": "metadata",
+      "file": "preservation/ipfs/metadata.json",
+      "cid": "QmYahZ8NstfK6oMCFfyhkoLJjVpQ7qYvbNynYw2a4sK8KP",
+      "bytes": 510,
+      "sha256": "13144d649e1cc87c27bb70de9f01eda52f9e11f8283e027eb6b2759924c3c512"
+    },
+    {
+      "name": "image",
+      "file": "preservation/ipfs/image.png",
+      "cid": "QmXwRMd9fCh2KXZRYqCw5C6kejE4RY8ghNZf9ExTGZbDLj",
+      "bytes": 1500431,
+      "sha256": "68e0d150dadb0f05454d9da82cad8517312faefda41fda54dc6542c5feea4079"
+    },
+    {
+      "name": "animation",
+      "file": "frontend/public/video.mp4",
+      "cid": "QmTzknUDPqQD328SWoJYjoCuKWLnECN6Pnw9NPeCXrXPre",
+      "bytes": 50953917,
+      "sha256": "b7b9a8c782bec751a754fe988ebc2f993ec1408b698acae68a403e5464634693"
+    }
+  ]
+}

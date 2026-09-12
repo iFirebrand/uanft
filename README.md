@@ -30,7 +30,7 @@ Without the Etherscan key, the dashboard displays unavailable totals and links t
 
 The browser reads the live price, mint status, and beneficiary. Minting is enabled only when token #1 is enabled and the beneficiary matches the original foundation address. It rechecks these conditions before requesting a transaction. Payment is integer wei arithmetic: current price × edition quantity. Gas is additional. Transactions are submitted only on the user's explicit click and wallet approval.
 
-Before promoting the fundraiser, verify the current recipient against Come Back Alive's current donation information and do a real wallet mint smoke test. A browser-based live check on September 12, 2026 confirmed token #1 is enabled at 0.01 ETH and the recipient matches the original address; see `docs/live-contract-check.json`. The metadata URI was verified on chain, but IPFS content retrieval and pinning remain unverified. No real mint was submitted during development.
+Before promoting the fundraiser, verify the current recipient against Come Back Alive's current donation information and do a real wallet mint smoke test. A browser-based live check on September 12, 2026 confirmed token #1 is enabled at 0.01 ETH and the recipient matches the original address; see `docs/live-contract-check.json`. All three NFT assets are preserved locally and their original IPFS CIDs have been reproduced exactly; current pin ownership and ongoing retention remain unverified. No real mint was submitted during development.
 
 ## Fundraising accounting
 
