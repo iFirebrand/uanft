@@ -22,4 +22,17 @@ for (const width of [375,390,768,1440]) {
  if(width===390||width===1440)await page.screenshot({path:`/tmp/uanft-${width}.png`,fullPage:true});
  await page.close();console.log(`PASS ${width}px: layout, wallet connection, mint payment, cancellation, invalid quantity`);
 }
+const retryPage=await browser.newPage(); let requests=0; let available=false;
+await retryPage.clock.install();
+await retryPage.route('**/api/stats',route=>{requests++;return route.fulfill({status:available?200:503,contentType:'application/json',body:available?JSON.stringify({minted:'179',raised:'1.79',transactions:40,asOf:'2026-09-13T01:00:00Z',recent:[]}):'{}'});});
+await retryPage.goto('http://localhost:5173');
+await retryPage.getByRole('button',{name:'Retry live totals'}).waitFor();
+await retryPage.clock.fastForward(180000);
+assert.equal(requests,1,'Unavailable stats must not repeat automatic requests');
+available=true;await retryPage.getByRole('button',{name:'Retry live totals'}).click();
+await retryPage.locator('.stats').getByText('179',{exact:true}).waitFor();
+await retryPage.clock.fastForward(60000);await retryPage.waitForTimeout(100);
+assert.equal(requests,3,'Manual recovery must resume periodic refresh');
+console.log('PASS stats failures stop polling; manual retry restores totals and periodic refresh');
+await retryPage.close();
 await browser.close();
