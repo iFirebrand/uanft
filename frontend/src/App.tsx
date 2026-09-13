@@ -33,6 +33,7 @@ export default function App() {
     if (!projectId) throw Error('Open this page in your mobile wallet’s browser to connect. WalletConnect will be available once configured.');
     const { default: EthereumProvider } = await import('@walletconnect/ethereum-provider');
     injected = await EthereumProvider.init({projectId, chains: [1], showQrModal: true, rpcMap: {1: import.meta.env.VITE_ETHEREUM_RPC_URL || 'https://ethereum.publicnode.com'}, metadata: {name: 'Snake Island NFT', description: 'Mint for Ukraine', url: window.location.origin, icons: [window.location.origin + '/android-chrome-192x192.png']}});
+    await injected.connect();
    }
    const accounts = await injected.request({method: 'eth_requestAccounts'}); const chainId = await injected.request({method: 'eth_chainId'});
    cleanup.current(); wallet.current = injected; setAccount(accounts[0] || ''); setChain(Number(chainId));
